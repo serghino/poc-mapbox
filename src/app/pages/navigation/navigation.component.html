@@ -1,0 +1,34 @@
+<mat-sidenav-container class="sidenav-container">
+  <!--sidenav-->
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
+    <mat-toolbar>MapBox Actions</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item routerLinkActive="active" routerLink="addMaker" [routerLinkActiveOptions]="{ exact: true }">Add Marker</a>
+      <a mat-list-item routerLinkActive="active" routerLink="add-lines" [routerLinkActiveOptions]="{ exact: true }">Add Lines</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <!--sidenav content-->
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async"
+      >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>MAP BOX POC</span>
+    </mat-toolbar>
+    <!-- child routes system -->
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

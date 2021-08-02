@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as mapboxgl from 'mapbox-gl';
-import { Marker } from 'mapbox-gl';
-import {MapService} from '../../services/map.service';
+import {MapService} from '../../../services/map.service';
 import {GeoJson, FeatureCollection} from '../map';
 
 @Component({
@@ -13,10 +12,10 @@ export class MapBoxComponent implements OnInit {
 
   // default settings
   map!: mapboxgl.Map;
-  style = 'mapbox://styles/mapbox/outdoors-v9';
-  lat = 37.75;
-  lng = -122.41;
-  message = 'Welcome to the new tech on maps';
+  style = 'mapbox://styles/mapbox/streets-v11';
+  lat = 45.50500547746486;
+  lng = -73.60717582048977;
+  message = '';
 
   // data
   source: any;
@@ -48,8 +47,8 @@ export class MapBoxComponent implements OnInit {
      this.map = new mapboxgl.Map({
       container: 'map', // container id
       style: this.style,
+      zoom: 13, // starting zoom
       center: [this.lng, this.lat], // starting position [lng, lat]
-      zoom: 13 // starting zoom
       });
 
       // add map controls
@@ -58,8 +57,12 @@ export class MapBoxComponent implements OnInit {
       // check listener on map control.
       this.map.on('click',(event)=>{
         const coordinates = [event.lngLat.lng, event.lngLat.lat];
+        // add default tag
+        (!this.message) ? this.message = 'Not marker added' : this.message;
         const newMarker = new GeoJson(coordinates, {message: this.message});
-        this.mapService.setMarker(newMarker);
+        this.mapService.createMarker(newMarker);
+        // clean message
+        this.message = '';
       })
 
       // load map
@@ -77,7 +80,11 @@ export class MapBoxComponent implements OnInit {
           this.source = this.map.getSource('firebase');
 
           // set source map
-          console.log(`load database or service....`, this.source);
+          this.mapService.subject$.subscribe((markers=>{
+            const data = new FeatureCollection(markers);
+            this.source.setData(data);
+            this.markers = this.mapService.getMarkers();
+          }))
 
           // create map layer
           this.map.addLayer({

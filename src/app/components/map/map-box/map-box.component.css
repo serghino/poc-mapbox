@@ -1,0 +1,16 @@
+.map {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  bottom: 0;
+  width: 75%;
+}
+
+.tag-maker { 
+    width: 20%;
+    border: 1px dashed white;
+}
+
+.mat-raised-button {
+    margin: 8px 8px 8px 0;
+  }
