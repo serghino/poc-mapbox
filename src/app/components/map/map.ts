@@ -16,11 +16,12 @@ export class GeoJson implements IGeoJson {
     type = 'Feature';
     geometry: IGeometry;
 
-    constructor(coordinates:number[], public properties?:any){
+    constructor(type: string, coordinates:number[], public properties?:any){
         this.geometry = {
             type: 'Point',
             coordinates
         }
+        this.properties = properties;
     }
 }
 

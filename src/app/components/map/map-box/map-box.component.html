@@ -1,20 +1,3 @@
-<div class="input-add-marker">
-  <input type="text" [(ngModel)]="message" placeholder="Add marker map" />
-</div>
-<br />
-<h2>List of Markers</h2>
-<div
-  id="tagMaker{{ marker.$key }}"
-  class="tag-maker"
-  *ngFor="let marker of markers"
->
-  <button mat-raised-button color="primary" (click)="flyTo(marker)">
-    {{ marker.properties.message }}
-  </button>
-  <button mat-raised-button color="warn" (click)="removeMarker(marker)">
-    Delete
-  </button>
-</div>
 <div class="map" id="map"></div>
 <div class="calculation-box">
   <p>Click the map to draw a polygon.</p>
